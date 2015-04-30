@@ -203,9 +203,26 @@ class WPUF_BP_Profile {
     function on_profile_update( $user_id, $form_id ) {
         $this->update_user_data( $user_id, $form_id );
     }
-    function on_user_registration( $user_id, $userdata, $form_id ) {
-		         $this->update_user_data( $user_id, $form_id );
-	}}
+function on_user_registration( $user_id, $userdata, $form_id ) {
+
+         $this->update_user_data( $user_id, $form_id );
+
+       if ( function_exists( 'bp_activity_add' ) ) {
+
+           bp_activity_add( array(
+
+                'user_id'   => $user_id,
+
+                'component' => 'xprofile',
+
+                'type'      => 'new_member'
+
+            ));
+
+        }
+
+     }
+}
 
 
     $wpuf_bp = WPUF_BP_Profile::init();
